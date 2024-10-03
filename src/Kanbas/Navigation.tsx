@@ -36,7 +36,7 @@ export default function KanbasNavigation() {
                    bg-black text-center border-0">
         <FaInbox className="fs-1 text-danger" /><br />
         Inbox </Link>
-      <Link to="/Kanbas/Dashboard" id="wd-course-link"
+      <Link to="/Labs" id="wd-course-link"
         className="list-group-item text-white
                    bg-black text-center border-0">
         <LiaCogSolid className="fs-1 text-danger" /><br />
