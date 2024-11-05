@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { FaPenSquare } from "react-icons/fa";
 import { BsGripVertical } from "react-icons/bs";
 import AssignmentsControls from "./AssignmentsControls";
-import AssignmentHeader from "./AssignmentHeader";
+import AssignmentHeader from "./AssignmentButton";
 import LessonControlButtons from "./LessonControlButtons";
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
