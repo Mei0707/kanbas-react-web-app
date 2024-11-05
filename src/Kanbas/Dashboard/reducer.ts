@@ -3,6 +3,7 @@ import * as db from "../Database"; // Adjust the path as needed
 
 const initialState = {
     enrollments: db.enrollments,
+    actualEnrollments: [] as any[],
 };
 
 const enrollmentSlice = createSlice({
@@ -10,22 +11,26 @@ const enrollmentSlice = createSlice({
         initialState,
         reducers: {
             fetchUserEnrollments: (state, { payload: user }) => {
-                const enrollments = db.enrollments.filter((e) => e.user == user.userId)
-                // console.log(`fetch enrollments ${enrollments} with userId ${user.userId.toString()}`)
-                state.enrollments = enrollments
+                if (state.actualEnrollments.length == 0) {
+                    console.log('here')
+                    state.actualEnrollments = db.enrollments.filter((e) => e.user == user.userId)
+                    state.enrollments = db.enrollments.filter((e) => e.user == user.userId)
+                } else {
+                    state.enrollments = state.actualEnrollments
+                }
             },
             fetchAllEnrollments: (state) => {
                 state.enrollments = db.enrollments
             },
             enrollCourse: (state, { payload: enrollment }) => {
                 // Logic for enrolling in a course
-                state.enrollments.push({
+                state.actualEnrollments.push({
                     _id: (state.enrollments.length + 1).toString(), user:enrollment.user, course: enrollment.course  
                 }) 
             },
             unenrollCourse: (state, { payload: enrollment }) => {
                 // Logic for unenrolling from a course
-                state.enrollments = state.enrollments.filter(
+                state.actualEnrollments = state.enrollments.filter(
                     (e) => e._id !== enrollment._id
                 );
             },

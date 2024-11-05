@@ -21,25 +21,31 @@ export default function Dashboard(
   }
 
   const [showAllCourses, setShowAllCourses] = useState(true);
-  useEffect(()=>{console.log(`enrollments is ${enrollments}`)})
+  useEffect(() => { console.log(`enrollments is ${enrollments}`) })
 
   const toggleEnrollmentView = () => {
     setShowAllCourses(!showAllCourses);
-    
+
     dispatch(fetchUserEnrollments({ userId: currentUser._id }));
+  };
+
+  const handleEnroll = (courseId: any) => {
+    dispatch(enrollCourse({ user: currentUser._id, course: courseId }));
+  };
+
+  const handleUnenroll = (courseId: string) => {
+    dispatch(unenrollCourse({ user: currentUser._id, course: courseId }));
   };
 
   return (
     <div id="wd-dashboard">
-      <h1 id="wd-dashboard-title">Dashboard</h1>
+      <h1 id="wd-dashboard-title">Dashboard
       {isStudent() && (
-        <div>
           <button className="enrollment-btn float-end btn btn-primary" onClick={toggleEnrollmentView}>
-            { showAllCourses ?   'Show Enrolled Courses' : 'Show All Courses'}
+            {showAllCourses ? 'Show Enrolled Courses' : 'Show All Courses'}
           </button>
-        </div>
-      )}
-      <hr />
+      )}</h1>
+      <br />
       <h5>New Course
         <button className="btn btn-primary float-end"
           id="wd-add-new-course-click"
@@ -58,11 +64,11 @@ export default function Dashboard(
       <div id="wd-dashboard-courses" className="row">
         <div className="row row-cols-1 row-cols-md-5 g-4">
           {
-            (showAllCourses? courses: (courses.filter((course) =>
-                enrollments.some(
-                  (enrollment: { user: any; course: any; }) =>
-                    enrollment.course === course._id
-                ))))
+            (showAllCourses ? courses : (courses.filter((course) =>
+              enrollments.some(
+                (enrollment: { user: any; course: any; }) =>
+                  enrollment.course === course._id
+              ))))
               .map((course) => (
                 <div className="wd-dashboard-course col" style={{ width: "300px" }}>
                   <div className="card rounded-3 overflow-hidden">
@@ -75,6 +81,13 @@ export default function Dashboard(
                         <p className="wd-dashboard-course-title card-text overflow-y-hidden" style={{ maxHeight: 100 }}>
                           {course.description} </p>
                         <button className="btn btn-primary"> Go </button>
+                        {/* {isStudent() && (
+                          <div>
+                            <button className="btn btn-warning me-2 float-end" onClick={()=>handleEnroll({course: course._id})}>
+                              Enroll
+                            </button>
+                          </div>
+                        )} */}
                         <button onClick={(event) => {
                           event.preventDefault();
                           deleteCourse(course._id);
