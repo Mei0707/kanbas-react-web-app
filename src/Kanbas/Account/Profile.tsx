@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
+import * as client from "./client";
 export default function Profile() {
   const [profile, setProfile] = useState<any>({});
   const dispatch = useDispatch();
@@ -14,6 +15,10 @@ export default function Profile() {
   const signout = () => {
     dispatch(setCurrentUser(null));
     navigate("/Kanbas/Account/Signin");
+  };
+  const updateProfile = async () => {
+    const updateProfile = await client.updateUser(profile);
+    dispatch(setCurrentUser(updateProfile));
   };
   useEffect(() => { fetchProfile(); }, []);
   return (
@@ -41,6 +46,7 @@ export default function Profile() {
           <button onClick={signout} className="btn btn-danger w-100 mb-2" id="wd-signout-btn">
             Sign out
           </button>
+          <button onClick={updateProfile} className="btn btn-primary w-100 mb-2"> Update </button>
         </div>
       )}
     </div>
