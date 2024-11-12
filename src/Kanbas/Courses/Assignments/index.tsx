@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaPenSquare } from "react-icons/fa";
 import { BsGripVertical } from "react-icons/bs";
 import AssignmentsControls from "./AssignmentsControls";
@@ -6,6 +6,9 @@ import AssignmentHeader from "./AssignmentButton";
 import LessonControlButtons from "./LessonControlButtons";
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
+import { addAssignment, deleteAssignment, setAssignments, updateAssignment } from './reducer';
 
 
 interface Assignment {
@@ -24,6 +27,31 @@ export default function Assignments() {
   const assignments = useSelector((state: any) => state.assignments.assignments);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [assignmentTitle, setAssignmentTitle] = useState("");
+
+  const saveAssignment = async (assignment: any) => {
+    await assignmentsClient.updateAssignment(assignment);
+    dispatch(updateAssignment(assignment));
+  };
+
+  const removeModule = async (assignmentId: string) => {
+    await assignmentsClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  };
+
+  const createAssignmentForCourse = async () => {
+    if (!cid) return;
+    const newAssignment = { title: assignmentTitle, course: cid };
+    const assignment = await coursesClient.createAssignmentForCourse(cid, newAssignment);
+    dispatch(addAssignment(assignment));
+  }
+  const fetchAssignments = async () => {
+    const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(assignments));
+  };
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
 
   const courseAssignments = assignments.filter((assignment: Assignment) => assignment.course === cid);
 
@@ -31,7 +59,9 @@ export default function Assignments() {
     console.log('Course Assignments:', courseAssignments);
   }, [assignments, cid]);
 
-  const handleAddAssignment = () => {
+  const handleAddAssignment = async () => {
+    if (!cid) return;
+    await createAssignmentForCourse();
     navigate(`/Kanbas/Courses/${cid}/Assignments/Editor`);
   };
 
@@ -56,7 +86,10 @@ export default function Assignments() {
               </div>
             </div>
             <div className="col-3 d-flex align-items-center justify-content-end p-3">
-              <LessonControlButtons assignmentTitle={assignment.title} assignmentId={assignment._id} />
+              <LessonControlButtons assignmentTitle={assignment.title} assignmentId={assignment._id}/>
+              <button className='btn btn-danger ms-3' onClick={() => removeModule(assignment._id)}>
+                Delete
+              </button>
             </div>
           </li>
         ))}

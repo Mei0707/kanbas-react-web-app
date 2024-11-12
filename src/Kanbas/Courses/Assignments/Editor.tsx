@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addAssignment, updateAssignment } from './reducer';
+import * as assignmentsClient from "./client";
+
 
 interface Assignment {
   _id: string;
@@ -39,13 +41,22 @@ export default function AssignmentEditor() {
     }
   }, [aid, assignments]);
 
-  const handleSave = () => {
+  const saveAssignment = async (assignmentData: Partial<Assignment>) => {
     if (aid) {
-      dispatch(updateAssignment({ ...assignment, _id: aid }));
-    } else {
-      dispatch(addAssignment({ ...assignment, course: cid }));
+      // Update existing assignment
+      await assignmentsClient.updateAssignment(assignmentData);
+      dispatch(updateAssignment(assignmentData));
     }
-    navigate(`/Kanbas/Courses/${cid}/Assignments`);
+  };
+
+  // Handle save button
+  const handleSave = async () => {
+    if (assignment.title && assignment.dueDate) {
+      await saveAssignment(assignment);
+      navigate(`/Kanbas/Courses/${cid}/Assignments`);
+    } else {
+      alert("Please fill in the required fields.");
+    }
   };
 
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
