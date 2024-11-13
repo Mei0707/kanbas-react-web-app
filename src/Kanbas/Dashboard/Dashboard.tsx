@@ -20,11 +20,10 @@ export default function Dashboard(
   }
 
   const [showAllCourses, setShowAllCourses] = useState(true);
-  useEffect(() => { console.log(`enrollments is ${enrollments}`) })
+  // useEffect(() => { console.log(`enrollments is ${enrollments}`) })
 
   const toggleEnrollmentView = () => {
     setShowAllCourses(!showAllCourses);
-
     dispatch(fetchUserEnrollments({ userId: currentUser._id }));
   };
 

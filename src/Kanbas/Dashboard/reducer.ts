@@ -12,7 +12,7 @@ const enrollmentSlice = createSlice({
         reducers: {
             fetchUserEnrollments: (state, { payload: user }) => {
                 if (state.actualEnrollments.length == 0) {
-                    console.log('here')
+                    // console.log('here')
                     state.actualEnrollments = db.enrollments.filter((e) => e.user == user.userId)
                     state.enrollments = db.enrollments.filter((e) => e.user == user.userId)
                 } else {
