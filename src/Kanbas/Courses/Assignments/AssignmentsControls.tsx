@@ -1,8 +1,13 @@
 import { FaSearch, FaPlus } from 'react-icons/fa';
-interface AssignmentsControlsProps {
-  onAddAssignment: () => void;
-}
-export default function AssignmentsControls({ onAddAssignment }: AssignmentsControlsProps) {
+import { useNavigate } from 'react-router-dom';
+import AssignmentEditor from './AssignmentEditor';
+
+export default function AssignmentsControls(
+  { assignmentTitle, setAssignmentTitle, addAssignment }:
+  { assignmentTitle: string; setAssignmentTitle: (title: string) => void; addAssignment: () => void; }
+) {
+  const navigate = useNavigate();
+
   return (
     <div className="d-flex align-items-center justify-content-start pb-1 mb-3 text-nowrap">
       <div className="input-group me-5">
@@ -21,10 +26,12 @@ export default function AssignmentsControls({ onAddAssignment }: AssignmentsCont
           <FaPlus className="me-1" /> 
           <span>Group</span>
         </button>
-        <button id="wd-add-assignment" className="btn btn-lg btn-danger me-1 float-end" onClick={onAddAssignment} >
+        <button id="wd-add-assignment" className="btn btn-lg btn-danger me-1 float-end">
           <FaPlus className="me-1" /> 
           <span>Assignment</span>
         </button>
+        {/* <AssignmentEditor dialogTitle='Add Assignment' assignmentTitle={assignmentTitle}
+                          setAssignmentTitle={setAssignmentTitle} addAssignment={addAssignment} /> */}
       </div>
     </div>
   )

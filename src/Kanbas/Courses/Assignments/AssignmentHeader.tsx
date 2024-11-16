@@ -2,7 +2,7 @@ import { BsGripVertical } from "react-icons/bs";
 import { IoEllipsisVertical } from "react-icons/io5";
 import {BsPlus} from "react-icons/bs"
 
-export default function AssignmentHeader() {
+export default function AssignmentControlButton() {
   return (
     <div className="d-title d-flex justify-content-between align-items-center p-3 ps-2 bg-secondary">
       <div className="d-flex">

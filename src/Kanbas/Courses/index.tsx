@@ -3,15 +3,22 @@ import { Route, Routes, Navigate, useParams, useLocation } from "react-router";
 import Modules from "./Modules";
 import Home from "./Home";
 import Assignments from "./Assignments";
-import AssignmentEditor from "./Assignments/Editor";
+import AssignmentEditor from "./Assignments/AssignmentEditor";
 import PeopleTable from "./People/Table";
 
 import { FaAlignJustify } from "react-icons/fa6";
+import { useState } from "react";
 
 export default function Courses({ courses } : { courses: any[]; }) {
   const { cid } = useParams();
   const course = courses.find((course) => course._id === cid);
   const { pathname } = useLocation();
+
+  const [assignmentTitle, setAssignmentTitle] = useState("");
+
+  const addAssignment = () => {
+    console.log("Assignment added: ", assignmentTitle);
+  };
   
   return (
       <div id="wd-courses">
@@ -29,7 +36,11 @@ export default function Courses({ courses } : { courses: any[]; }) {
             <Route path="Home" element={<Home />} />
             <Route path="Modules" element={<Modules />} />
             <Route path="Assignments" element={<Assignments />} />
-            <Route path="Assignments/:aid" element={<AssignmentEditor />} />
+            {/* <Route path="Assignments/edit-assignment" element={<AssignmentEditor
+                  assignmentTitle={assignmentTitle}
+                  setAssignmentTitle={setAssignmentTitle}
+                  addAssignment={addAssignment}
+                />} /> */}
             <Route path="People" element={<PeopleTable />} />
           </Routes>
           </div>
