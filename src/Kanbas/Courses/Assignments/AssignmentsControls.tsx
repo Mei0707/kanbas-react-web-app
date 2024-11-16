@@ -1,12 +1,18 @@
 import { FaSearch, FaPlus } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import AssignmentEditor from './AssignmentEditor';
 
 export default function AssignmentsControls(
   { assignmentTitle, setAssignmentTitle, addAssignment }:
   { assignmentTitle: string; setAssignmentTitle: (title: string) => void; addAssignment: () => void; }
 ) {
+  const { cid, aid } = useParams();
   const navigate = useNavigate();
+
+  const handleRedirect = () => {
+    navigate(`/Kanbas/Courses/${cid}/Assignments/edit-assignment`);
+  };
+
 
   return (
     <div className="d-flex align-items-center justify-content-start pb-1 mb-3 text-nowrap">
@@ -26,7 +32,8 @@ export default function AssignmentsControls(
           <FaPlus className="me-1" /> 
           <span>Group</span>
         </button>
-        <button id="wd-add-assignment" className="btn btn-lg btn-danger me-1 float-end">
+        <button id="wd-add-assignment" className="btn btn-lg btn-danger me-1 float-end"
+         onClick={handleRedirect}>
           <FaPlus className="me-1" /> 
           <span>Assignment</span>
         </button>

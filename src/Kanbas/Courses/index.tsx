@@ -36,11 +36,7 @@ export default function Courses({ courses } : { courses: any[]; }) {
             <Route path="Home" element={<Home />} />
             <Route path="Modules" element={<Modules />} />
             <Route path="Assignments" element={<Assignments />} />
-            {/* <Route path="Assignments/edit-assignment" element={<AssignmentEditor
-                  assignmentTitle={assignmentTitle}
-                  setAssignmentTitle={setAssignmentTitle}
-                  addAssignment={addAssignment}
-                />} /> */}
+            <Route path="Assignments/edit-assignment" element={<AssignmentEditor/>} />
             <Route path="People" element={<PeopleTable />} />
           </Routes>
           </div>

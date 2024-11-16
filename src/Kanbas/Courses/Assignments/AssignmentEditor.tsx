@@ -1,18 +1,29 @@
 import { Link, useParams } from "react-router-dom";
 import { useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
+import Assignments from "./index";
+import * as coursesClient from "../client";
 
 
-export default function AssignmentEditor({ assignmentTitle, setAssignmentTitle, addAssignment }:
-  { assignmentTitle: string; setAssignmentTitle: (title: string) => void; addAssignment: () => void; }) {
+export default function AssignmentEditor(
+  // { 
+  // assignmentTitle, setAssignmentTitle, addAssignment }:
+  // { assignmentTitle: string; setAssignmentTitle: (title: string) => void; addAssignment: () => void; }
+  ) {
+    let assignmentTitle = '';
+    const setAssignmentTitle = (target: string) => {
+      assignmentTitle = target
+    }
     const { cid, aid } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
-    const saveAssignment = () => {
-      const newAssignment = { title: assignmentTitle };
-      location.state.addAssignment(newAssignment);
-      navigate('/');
+    const saveAssignment = async () => {
+      if (!cid) return;
+      const newAssignment = { title: assignmentTitle, course: cid };
+      const assignment = await coursesClient.createAssignmentForCourse(cid, newAssignment);
+      navigate(`/Kanbas/Courses/${cid}/Assignments`);
     };
+
     return (
       <div className="container mt-3">
         {/* Display assignment name */}
