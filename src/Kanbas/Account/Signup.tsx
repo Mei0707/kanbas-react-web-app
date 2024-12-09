@@ -9,7 +9,7 @@ export default function Signup() {
   const dispatch = useDispatch();
   const signup = async () => {
     const currentUser = await client.signup(user);
-    console.log(currentUser)
+    // console.log(currentUser)
     dispatch(setCurrentUser(currentUser));
     navigate("/Kanbas/Account/Profile");
   };

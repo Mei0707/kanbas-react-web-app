@@ -43,7 +43,7 @@ export default function Modules() {
   
   const filtered_modules = modules.filter((module: any) => module.course === cid);
 
-  console.log(`filter modules is ${filtered_modules} with cid ${cid}`)
+  // console.log(`filter modules is ${filtered_modules} with cid ${cid}`)
   return (
     <div className="wd-modules">
       <ModulesControls moduleName={moduleName} setModuleName={setModuleName} 

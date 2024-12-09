@@ -44,7 +44,7 @@ export default function Assignments() {
   }, []);
 
   const filtered_assignments = assignments.filter((assignment: any) => assignment.course === cid);
-  console.log(`filter assignment is ${JSON.stringify(filtered_assignments)} with cid ${cid}`)
+  // console.log(`filter assignment is ${JSON.stringify(filtered_assignments)} with cid ${cid}`)
 
   return (
     <div id="wd-assignments" className="container mt-4">
